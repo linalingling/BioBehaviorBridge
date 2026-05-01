@@ -22,35 +22,39 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 -- 2. 項目表（範例：你可以改成 roses / rooms / bills / quests 等）
-CREATE TABLE IF NOT EXISTS items (
-    id          SERIAL PRIMARY KEY,
-    name        VARCHAR(100) NOT NULL,
-    category    VARCHAR(30)  NOT NULL,              -- 對應 Enum
-    status      VARCHAR(20)  NOT NULL DEFAULT 'ACTIVE',  -- ACTIVE / ARCHIVED / DELETED
-    description TEXT,
-    priority    INT          NOT NULL DEFAULT 1 CHECK (priority BETWEEN 1 AND 5),
-    owner_id    INT          REFERENCES users(id) ON DELETE CASCADE,
-    created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
-    updated_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
+-- *定義監控目的枚舉 ( 5 種需求)
+CREATE TYPE goal_type AS ENUM (
+    'WEIGHT_LOSS',      -- 減重
+    'RECOVERY',         -- 恢復
+    'ANXIETY_MGMT',     -- 焦慮管理
+    'WITHDRAWAL',       -- 戒斷 (如 18 年催吐史後的紀錄)
+    'LIFE_LOGGING'      -- 單純生活紀錄
+    );
+-- 3. 操作紀錄表（建立目標管理表 (One-to-Many 邏輯)）
+CREATE TABLE IF NOT EXISTS goals (
+                                     id SERIAL PRIMARY KEY,
+                                     user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                                     title goal_type NOT NULL,
+                                     is_active BOOLEAN DEFAULT TRUE, -- 用於「隨時切換目的」的核心欄位
+                                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
--- 3. 操作紀錄表（範例：養護日誌 / 帳單紀錄 / 任務日誌）
-CREATE TABLE IF NOT EXISTS item_logs (
-    id          SERIAL PRIMARY KEY,
-    item_id     INT          NOT NULL REFERENCES items(id) ON DELETE CASCADE,
-    action      VARCHAR(30)  NOT NULL,   -- CREATE / UPDATE / NOTE / COMPLETE
-    note        TEXT,
-    created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
-);
+ALTER TYPE user_role ADD VALUE 'ADMIN' BEFORE 'USER';
 
 -- =============================================
 -- 種子資料（示範用，同學請替換成自己的）
 -- =============================================
 INSERT INTO users (username, password_hash, role) VALUES
-    ('admin', '240be518', 'ADMIN'),
-    ('demo',  'fe2592b4', 'USER');
+                                                      ('ling0045', 'lina1234', 'DOCTOR'),
+                                                      ('demo',  'fe2592b4', 'USER');
 
-INSERT INTO items (name, category, status, description, priority, owner_id) VALUES
-    ('範例項目 A', 'GENERAL', 'ACTIVE', '這是第一個範例項目', 3, 2),
-    ('範例項目 B', 'URGENT',  'ACTIVE', '這是緊急項目',       5, 2),
-    ('範例項目 C', 'GENERAL', 'ARCHIVED', '這個已經完成了',   1, 2);
+INSERT INTO goals (user_id, title, is_active) VALUES
+                                                  (1, 'RECOVERY', TRUE),      -- 目前啟動中的目標
+                                                  (1, 'LIFE_LOGGING', FALSE); -- 過去或待機中的目標
+-- 3. 操作紀錄表 (對應老師模板的 item_logs)
+CREATE TABLE IF NOT EXISTS behavior_logs (
+                                             id          SERIAL PRIMARY KEY,
+                                             goal_id     INT NOT NULL REFERENCES goals(id) ON DELETE CASCADE,
+                                             action      VARCHAR(30) NOT NULL, -- 類別：如 TRAINING, MEDICAL, NUTRITION
+                                             note        TEXT,                -- 詳細內容：如 重訓重量、心情筆記
+                                             created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
