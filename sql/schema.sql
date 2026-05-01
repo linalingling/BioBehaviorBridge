@@ -6,11 +6,18 @@
 -- =============================================
 
 -- 1. 使用者表
+create TYPE user_role AS ENUM ('USER', 'COACH' , 'DOCTOR');
 CREATE TABLE IF NOT EXISTS users (
     id          SERIAL PRIMARY KEY,
+    --使用特定格式( USER00001)
+    formatted_id VARCHAR(20) GENERATED ALWAYS AS (
+        'USER' || LPAD(id::text,5,0)
+        ) STORED,
+
     username    VARCHAR(30)  NOT NULL UNIQUE,
     password_hash VARCHAR(100) NOT NULL,
-    role        VARCHAR(20)  NOT NULL DEFAULT 'USER',  -- USER / ADMIN
+    role user_role NOT NULL DEFAULT 'USER',
+  -- USER / ADMIN
     created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
 );
 
