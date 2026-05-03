@@ -73,5 +73,21 @@ CREATE TABLE IF NOT EXISTS characters
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+--5.character_state 邏輯建模
+CREATE TABLE IF NOT EXISTS character_state
+(
+    id              SERIAL PRIMARY KEY,
+    char_id         INT NOT NULL REFERENCES characters (id) ON DELETE CASCADE,
+    muscle_mass     DECIMAL(5, 2) DEFAULT 0,
+    waist_hip_ratio DECIMAL(3, 2) DEFAULT 0,
+    fatigue_index   INT           DEFAULT 0,
+    mood_index      INT           DEFAULT 0,
+    goal_completion INT           DEFAULT 0,
+    update_at       TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+
 
 )
