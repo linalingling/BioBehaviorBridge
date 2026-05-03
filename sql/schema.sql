@@ -50,7 +50,7 @@ INSERT INTO users (username, password_hash, role) VALUES
 INSERT INTO goals (user_id, title, is_active) VALUES
                                                   (1, 'RECOVERY', TRUE),      -- 目前啟動中的目標
                                                   (1, 'LIFE_LOGGING', FALSE); -- 過去或待機中的目標
--- 3. 操作紀錄表 (對應老師模板的 item_logs)
+
 CREATE TABLE IF NOT EXISTS behavior_logs (
                                              id          SERIAL PRIMARY KEY,
                                              goal_id     INT NOT NULL REFERENCES goals(id) ON DELETE CASCADE,
@@ -58,3 +58,20 @@ CREATE TABLE IF NOT EXISTS behavior_logs (
                                              note        TEXT,                -- 詳細內容：如 重訓重量、心情筆記
                                              created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+-- 4. 養成角色邏輯與資訊
+CREATE TYPE talent_category AS ENUM ('CONTROL','MEDITATION','RECOVERY', 'FOCUS');
+CREATE TABLE IF NOT EXISTS characters
+(
+    id            SERIAL PRIMARY KEY,
+    user_id       INT                NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    goal_id       INT                NOT NULL REFERENCES goals (id) ON DELETE CASCADE,
+    char_name     VARCHAR(30) UNIQUE NOT NULL,
+    char_level    INT           DEFAULT 1, --預設值1
+    char_exp      INT           DEFAULT 0, --預設值0
+    bonus_decimal DECIMAL(3, 2) DEFAULT 1.00,
+    talent_type   VARCHAR(20),
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+)
