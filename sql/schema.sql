@@ -90,4 +90,3 @@ CREATE TABLE IF NOT EXISTS character_state
 
 
 
-)
