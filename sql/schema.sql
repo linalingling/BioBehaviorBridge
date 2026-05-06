@@ -20,6 +20,11 @@ CREATE TABLE IF NOT EXISTS users (
   -- USER / ADMIN
     created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
 );
+INSERT INTO users(username, password_hash, role) VALUES
+                                                     ('Lina','abc1234','USER'),
+                                                     ('Hank','hhh4476','COACH'),
+                                                     ('Aggie','agg777','DOCTOR'),
+                                                     ('Tony','tnn542','USER');
 
 -- 2. 項目表（範例：你可以改成 roses / rooms / bills / quests 等）
 -- *定義監控目的枚舉 ( 5 種需求)
@@ -27,7 +32,7 @@ CREATE TYPE goal_type AS ENUM (
     'WEIGHT_LOSS',      -- 減重
     'RECOVERY',         -- 恢復
     'ANXIETY_MGMT',     -- 焦慮管理
-    'WITHDRAWAL',       -- 戒斷 (如 18 年催吐史後的紀錄)
+    'WITHDRAWAL',       -- 戒斷 (如戒菸)
     'LIFE_LOGGING'      -- 單純生活紀錄
     );
 -- 3. 操作紀錄表（建立目標管理表 (One-to-Many 邏輯)）
@@ -39,6 +44,14 @@ CREATE TABLE IF NOT EXISTS goals (
                                      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ALTER TYPE user_role ADD VALUE 'ADMIN' BEFORE 'USER';
+
+INSERT INTO goals (user_id, title, is_active) VALUES
+                                                  (6, 'WEIGHT_LOSS', TRUE),   -- 目前啟動中的目標
+                                                  (7, 'LIFE_LOGGING', TRUE),
+                                                  (8,'ANXIETY_MGMT', TRUE),
+                                                  (9,'LIFE_LOGGING',FALSE),-- 過去或待機中的目標
+                                                  (9,'WITHDRAWAL',TRUE);
+
 
 -- =============================================
 -- 種子資料（示範用，同學請替換成自己的）
@@ -85,6 +98,15 @@ CREATE TABLE IF NOT EXISTS character_state
     goal_completion INT           DEFAULT 0,
     update_at       TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
 );
+
+--Test
+INSERT INTO users (username,password_hash,role) VALUES
+                                                    ('Ling','abc1233','USER'),
+                                                    ('Hank','qaz0725','COACH');
+INSERT INTO characters(user_id,goal_id,char_name)VALUES
+                                                     (4,1,'黃小鴨'),
+                                                     (5,5,'木木黃');
+
 
 
 
