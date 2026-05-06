@@ -100,13 +100,18 @@ CREATE TABLE IF NOT EXISTS character_state
 );
 
 --Test
-INSERT INTO users (username,password_hash,role) VALUES
-                                                    ('Ling','abc1233','USER'),
-                                                    ('Hank','qaz0725','COACH');
-INSERT INTO characters(user_id,goal_id,char_name)VALUES
-                                                     (4,1,'黃小鴨'),
-                                                     (5,5,'木木黃');
+INSERT INTO characters(
+                       user_id, goal_id, char_name, talent_type,bonus_decimal
+) VALUES
+      (6,16,'黃小鴨','WEIGHT_LOSS',1.15);
 
+INSERT INTO behavior_logs(goal_id,action,note)VALUES
+                                                  (16,'TRAINING','重訓:槓鈴深蹲 50KG'),
+                                                  (16,'CONTROL','飲食未攝取糖類'),
+                                                  (16,'MEDICAL','生理:有排便');
+INSERT INTO behavior_logs (goal_id, action, note) VALUES
+(17, 'MEDITATION', '冥想：身心恢復加成'),
+(20, 'MEDITATION', '冥想：戒斷穩定加成');
 
 
 
