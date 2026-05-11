@@ -35,9 +35,13 @@ BioBehaviorBridge/
 ├── run.bat                    # Windows 一鍵啟動腳本
 └── .gitignore                 # Git 忽略清單 (排除 .idea, .class 等檔案)
 
+ ```
+
 使用 Mermaid 繪製的資料庫關聯圖，展示了數據如何從使用者流向最終的行為紀錄：
 
-```mermaid
+
+   ```mermaid
+   
 erDiagram
     USERS ||--o{ GOALS : set
     GOALS ||--o{ CHARACTERS : assign
