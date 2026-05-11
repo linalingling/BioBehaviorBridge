@@ -122,7 +122,7 @@ classDiagram
     }
     class CharacterDAO {
        +insert(Character) int
-       +findById(int) Caracter
+       +findById(int) Character
        +updateBonus(int, BiDecimal) boolean
     }
     class BehaviorService {
