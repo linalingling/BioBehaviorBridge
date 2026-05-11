@@ -22,6 +22,8 @@ erDiagram
         string action "行為類型"
         string note "備註 (如：握把深蹲 80kg)"
     }
+   ```
+    
 
 ## 🚀 如何使用
 
