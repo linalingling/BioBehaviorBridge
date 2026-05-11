@@ -45,36 +45,47 @@ java -cp ".;lib/*" com.linalingling.bbb.Main
 ### 3. 測試帳號
 
 | 帳號 | 密碼 | 角色 |
-|Lina|abc1234|USER|
-| admin | admin | 管理者 |
-| demo | demo | 一般使用者 |
+
+| Lina | abc1234 | USER |
+
+| Linaling | aabbcc06 | ADMIN |
+
 
 ## 📐 架構說明
 
-```
-View（畫面）  →  Service（邏輯）  →  DAO（資料庫）  →  PostgreSQL
-  ↑ Scanner         ↑ 驗證/判斷         ↑ SQL/JDBC
-  ↓ println         ↓ 回傳結果         ↓ 回傳 Model
-```
+
+### 📐 架構說明 (System Architecture)
+
+本專案嚴格遵循 MVC 模式，數據流動邏輯如下：
+
+
+| 層級          | 核心技術             | 職責說明                  | 專案實際應用    |
+|:------------|:-----------------|:----------------------|:----------|
+| **View**    | Scanner/printlin | 負責使用者交互選單顯示           | 接收如「紀錄重訓 80kg」或「紀錄冥想」的指令          |
+| **Service** | 業務邏輯判斷           | 負責核心運算與驗證             |倍率計算核心：提取 1.15 倍率並計算行為產生的經驗值。  |
+| **DAO**     | JDBC/SQL         |負責執行 SQL 語句與數據映射     |將計算後的數據透過 PreparedStatement 存入 PostgreSQL。|
+| **PostgreSQL**        | 資料庫儲存    | 永久保存所有生理與行為數據 | 儲存使用者、角色天賦倍率及所有行為日誌。 |
+
 
 ### 各層職責
 
-| 層 | 職責 | 可以做 | 不能做 |
-|----|------|--------|--------|
-| **View** | 使用者互動 | Scanner / println / 選單 | 寫 SQL |
-| **Service** | 業務邏輯 | 驗證 / 計算 / 呼叫 DAO | 碰 Scanner |
-| **DAO** | 資料存取 | SQL / JDBC / 回傳 Model | 業務判斷 |
-| **Model** | 資料結構 | 屬性 / Getter / 業務方法 | 碰資料庫 |
+| 層 | 職責 | 可以做                     | 不能做 |
+|----|------|-------------------------|--------|
+| **View** | 使用者互動 | Scanner / println / 選單  | 寫 SQL |
+| **Service** | 業務邏輯 | 驗證 / 計算*.15倍率) / 呼叫 DAO | 碰 Scanner |
+| **DAO** | 資料存取 | SQL / JDBC / 回傳 Model   | 業務判斷 |
+| **Model** | 資料結構 | 屬性 / Getter / 業務方法      | 碰資料庫 |
 
-## 📝 修改步驟（同學照做）
+## 📝 開發進度與實作重點
 
-1. **改 package 名稱**：把 `com.template` 改成 `com.你的專題`
-2. **改 Enum**：`Category` → 你的分類、`Status` → 你的狀態流程
-3. **改 Model**：`Item` → 你的核心物件（例如 `Rose`、`Room`、`Bill`）
-4. **改 SQL**：`schema.sql` 裡的 `items` 表改成你的資料表
-5. **改 DAO**：`ItemDAO` 的 SQL 和 `mapRow()` 對應新欄位
-6. **改 Service**：驗證規則改成你的業務需求
-7. **改 View**：選單文字和操作流程
+依照系統開發規範，本專案實作進度如下：
+
+- [x] **1. Package 重構**：已完成 `com.linalingling.bbb` 結構建立。
+- [x] **2. SQL Schema 設計**：已完成 `schema.sql` 建表與 5 筆包含 1.15 倍率之種子資料。
+- [ ] **3. Entity 模型建立**：預計實作 `User`, `Character` (對應範本 Item) 及其封裝。
+- [ ] **4. DAO 層實作**：將實作 `CharacterDAO`，透過 JDBC 進行數據存取。
+- [ ] **5. Service 邏輯開發**：實作行為加成運算與多目標分發邏輯。
+- [ ] **6. View 界面開發**：實作 CLI 選單與操作流程截圖。
 
 ## 📊 類別圖（Mermaid）
 
@@ -83,62 +94,54 @@ classDiagram
     class User {
         -int id
         -String username
-        -String role
-        +isAdmin() boolean
+        -String password
+        +isLogined() boolean
     }
-    class Item {
+    class Character {
         -int id
-        -String name
-        -Category category
-        -Status status
-        -String description
-        -int priority
-        +archive() void
-        +display() String
+        -String charName
+        -BigDecimal bonusDecimal
+        -talentCategory talentType
+        +calculateBonus(int baseExp) BigDecimal
+        
     }
-    class Category {
+    class TalentCategory {
         <<enumeration>>
-        GENERAL
-        URGENT
-        IMPORTANT
-        LOW
-    }
-    class Status {
-        <<enumeration>>
-        ACTIVE
-        ARCHIVED
-        DELETED
-    }
+        CONTROL
+        MEDITATION
+        RECOVERY
+        FOCUS
+   }  
+        
+           
     class UserDAO {
-        +register() int
-        +login() User
+        +register(User) int
+        +login(String, String) User
     }
-    class ItemDAO {
-        +insert() int
-        +findById() Item
-        +findByOwner() List~Item~
-        +update() boolean
-        +softDelete() boolean
+    class CharacterDAO {
+       +insert(Character) int
+       +findById(int) Caracter
+       +updateBonus(int, BiDecimal) boolean
     }
-    class ItemService {
-        +createItem() List~String~
-        +getMyItems() List~Item~
-        +updateItem() boolean
-        +deleteItem() boolean
+    class BehaviorService {
+       -CharacterDAO charDAO
+       +recordActivity (String action) boolean
+       +applyBonusLogic (int charId) BigDecimal
     }
     class MainView {
         -Scanner scanner
         -User currentUser
-        +start() void
+        +showMainMenu () void
+        +handleActivityInput() void
     }
-
-    Item --> Category
-    Item --> Status
-    MainView --> ItemService
-    ItemService --> ItemDAO
+    Character --> TalentCategory
+    MainView --> BehaviorService
+    BehaviorService --> CharacterDAO
     MainView --> UserDAO
-    ItemDAO ..> Item : creates
-    UserDAO ..> User : creates
+    CharacterDAO ..> Character : creates
+    UserDAO ..> User : Creates
+
+    
 ```
 
 ## 📊 ERD（Mermaid）
