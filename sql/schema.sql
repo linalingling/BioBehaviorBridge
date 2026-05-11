@@ -70,7 +70,8 @@ CREATE TABLE IF NOT EXISTS behavior_logs (
                                              id          SERIAL PRIMARY KEY,
                                              goal_id     INT NOT NULL REFERENCES goals(id) ON DELETE CASCADE,
                                              action      VARCHAR(30) NOT NULL, -- 類別：如 TRAINING, MEDICAL, NUTRITION
-                                             note        TEXT,                -- 詳細內容：如 重訓重量、心情筆記
+                                             note        TEXT,
+                                             calculated_points DECIMAL(10, 2), -- 詳細內容：如 重訓重量、心情筆記
                                              created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 -- 4. 養成角色邏輯與資訊

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 public class Character {
     private int id;
     private String charName;
+    private int goalId;
     private BigDecimal bonusDecimal;
     private String talentType;
 
@@ -19,6 +20,14 @@ public class Character {
 
     public int getId() {
         return id;
+    }
+
+    public int getGoalId() {
+        return goalId;
+    }
+
+    public void setGoalId(int goalId) {
+        this.goalId = goalId;
     }
 
     public void setId(int id) {

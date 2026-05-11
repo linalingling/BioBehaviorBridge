@@ -22,6 +22,7 @@ public class CharacterDAO {
             Character character = new Character();
             character.setId(rs.getInt("id"));
             character.setCharName(rs.getString("char_name"));
+            character.setGoalId(rs.getInt("goal_id"));
             character.setBonusDecimal(rs.getBigDecimal("bonus_decimal"));
             character.setTalentType(rs.getString("talent_type"));
             return character;

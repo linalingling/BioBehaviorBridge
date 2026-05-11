@@ -1,6 +1,7 @@
 package com.linalingling.bbb;
 
 import com.linalingling.bbb.controller.BehaviorController;
+import com.linalingling.bbb.dao.BehaviorDAO;
 import com.linalingling.bbb.dao.CharacterDAO;
 import com.linalingling.bbb.service.BehaviorService;
 import com.linalingling.bbb.util.DBUtil;
@@ -15,9 +16,10 @@ public class Main {
             conn = DBUtil.getConnection();
 
 
-        CharacterDAO dao = new CharacterDAO(conn);
+        CharacterDAO charDao = new CharacterDAO(conn);
+        BehaviorDAO behaviorDAO = new BehaviorDAO(conn);
 
-        BehaviorService service = new BehaviorService(dao);
+        BehaviorService service = new BehaviorService(charDao,behaviorDAO);
 
         BehaviorController controller = new BehaviorController(service);
 
