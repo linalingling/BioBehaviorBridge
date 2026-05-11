@@ -34,7 +34,7 @@ erDiagram
 psql -U postgres -d biobehaviorbridge -f sql/schema.sql
 
 # 匯入資料表
-psql -U postgres -h localhost -d myproject -f sql/schema.sql
+psql -U postgres -h localhost -d biobehaviorbridge -f sql/schema.sql
 ```
 
 ### 2. 編譯 & 執行
