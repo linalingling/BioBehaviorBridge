@@ -12,7 +12,7 @@ public class BehaviorService {
         this.characterDAO = characterDAO;
     }
 
-    public BigDecimal calaulateGrowth (int baseValue, int characterId) throws SQLException{
+    public BigDecimal calculateGrowth(int baseValue, int characterId) throws SQLException{
         //1.先用characterDAO透過id找到Character物件
         Character character = characterDAO.findById(characterId);
 
