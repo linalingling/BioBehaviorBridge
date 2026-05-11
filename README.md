@@ -1,46 +1,35 @@
-# 📋 BioBehaviorBridge
+# BioBehaviorBridge (BBB)
 
+## 📌 專案簡介
+這是一個專為行為追蹤與生理數據量化設計的 Java 系統。
+專案核心在於建立「行為」與「目標」之間的科學連結，特別針對戒斷恢復期設計。
+透過自定義的角色天賦倍率（例如 1.15），將抽象的日常行為（冥想、重訓、飲食控制）轉化為具體的成長數據。
 
+## 📊 技術架構 (ERD)
+使用 Mermaid 繪製的資料庫關聯圖，展示了數據如何從使用者流向最終的行為紀錄：
 
-> 把這裡換成你的專題名稱和簡介
-
-## 🏗️ 專案架構
-
-```
-project-template/
-├── src/main/java/com/template/
-│   ├── Main.java                    ← 程式入口
-│   ├── config/
-│   │   └── DatabaseConfig.java      ← JDBC 連線設定
-│   ├── model/
-│   │   ├── enums/
-│   │   │   ├── Category.java        ← 類別列舉（請改成你的分類）
-│   │   │   └── Status.java          ← 狀態列舉（請改成你的狀態流程）
-│   │   ├── User.java                ← 使用者（可直接沿用）
-│   │   └── Item.java                ← 核心物件（請改名+改屬性）
-│   ├── dao/
-│   │   ├── UserDAO.java             ← 使用者 CRUD（可直接沿用）
-│   │   └── ItemDAO.java             ← 核心物件 CRUD（請改 SQL）
-│   ├── service/
-│   │   └── ItemService.java         ← 業務邏輯（驗證、權限）
-│   └── view/
-│       └── MainView.java            ← CLI 選單（請改選單文字）
-├── sql/
-│   └── schema.sql                   ← 建表 + 種子資料（請改表格）
-├── run.sh                           ← Mac/Linux 一鍵執行
-└── run.bat                          ← Windows 一鍵執行
-```
+```mermaid
+erDiagram
+    USERS ||--o{ GOALS : set
+    GOALS ||--o{ CHARACTERS : assign
+    GOALS ||--o{ BEHAVIOR_LOGS : record
+    
+    CHARACTERS {
+        decimal bonus_decimal "天賦加成 (如 1.15)"
+        string talent_type "天賦類型"
+    }
+    BEHAVIOR_LOGS {
+        string action "行為類型"
+        string note "備註 (如：握把深蹲 80kg)"
+    }
 
 ## 🚀 如何使用
 
 ### 1. 建立資料庫
 
 ```bash
-# 建立 PostgreSQL 資料庫（Docker 方式）
-docker run -d --name mydb -p 5432:5432 \
-  -e POSTGRES_PASSWORD=postgres \
-  -e POSTGRES_DB=myproject \
-  postgres:16
+# 使用 psql 匯入定義的 1.15 倍率初始 Schema
+psql -U postgres -d biobehaviorbridge -f sql/schema.sql
 
 # 匯入資料表
 psql -U postgres -h localhost -d myproject -f sql/schema.sql
@@ -49,14 +38,14 @@ psql -U postgres -h localhost -d myproject -f sql/schema.sql
 ### 2. 編譯 & 執行
 
 ```bash
-chmod +x run.sh
-./run.sh
+# 執行 Main.java 啟動系統
+java -cp ".;lib/*" com.linalingling.bbb.Main
 ```
 
 ### 3. 測試帳號
 
 | 帳號 | 密碼 | 角色 |
-|------|------|------|
+|Lina|abc1234|USER|
 | admin | admin | 管理者 |
 | demo | demo | 一般使用者 |
 

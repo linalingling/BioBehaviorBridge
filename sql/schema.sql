@@ -25,6 +25,8 @@ INSERT INTO users(username, password_hash, role) VALUES
                                                      ('Hank','hhh4476','COACH'),
                                                      ('Aggie','agg777','DOCTOR'),
                                                      ('Tony','tnn542','USER');
+INSERT INTO users(username, password_hash, role) VALUES
+                                                     ('Linaling','aabbcc06','ADMIN');
 
 -- 2. 項目表（範例：你可以改成 roses / rooms / bills / quests 等）
 -- *定義監控目的枚舉 ( 5 種需求)
