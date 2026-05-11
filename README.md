@@ -6,6 +6,8 @@
 透過自定義的角色天賦倍率（例如 1.15），將抽象的日常行為（冥想、重訓、飲食控制）轉化為具體的成長數據。
 
 ## 📊 技術架構 (ERD)
+
+```text
 BioBehaviorBridge/
 ├── sql/
 │   └── schema.sql             # 資料庫建表與初始資料 (包含目標、天賦倍率設定)
@@ -32,6 +34,7 @@ BioBehaviorBridge/
 ├── README.md                  # 專案說明文件 (包含妳的 Mermaid 圖與截圖)
 ├── run.bat                    # Windows 一鍵啟動腳本
 └── .gitignore                 # Git 忽略清單 (排除 .idea, .class 等檔案)
+
 使用 Mermaid 繪製的資料庫關聯圖，展示了數據如何從使用者流向最終的行為紀錄：
 
 ```mermaid
