@@ -173,3 +173,10 @@ erDiagram
         timestamp created_at
     }
 ```
+## 🚀 開發進度：核心邏輯驗證成功
+
+目前已打通 **Java Service 層** 與 **PostgreSQL 資料庫** 的數據鏈路。
+
+### 1. 整合測試結果 (Console)
+成功計算天賦加成 (1.15) 並精確對齊 Goal_ID (16)：
+![測試成功截圖](doc_images/test_success.png)
