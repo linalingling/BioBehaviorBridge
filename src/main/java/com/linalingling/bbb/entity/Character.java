@@ -7,6 +7,9 @@ public class Character {
     private BigDecimal bonusDecimal;
     private String talentType;
 
+    public Character() {
+    }
+
     public Character(int id, String charName, BigDecimal bonusDecimal, String talentType) {
         this.id = id;
         this.charName = charName;

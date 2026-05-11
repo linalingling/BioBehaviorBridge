@@ -38,7 +38,7 @@ public class CharacterDAO {
         return pstmt.executeUpdate();
 
         // 之後寫insert into
-        return 0;
+
     }
 }
 
