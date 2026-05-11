@@ -6,6 +6,32 @@
 透過自定義的角色天賦倍率（例如 1.15），將抽象的日常行為（冥想、重訓、飲食控制）轉化為具體的成長數據。
 
 ## 📊 技術架構 (ERD)
+BioBehaviorBridge/
+├── sql/
+│   └── schema.sql             # 資料庫建表與初始資料 (包含目標、天賦倍率設定)
+├── src/
+│   └── com/linalingling/bbb/   # 原始碼根目錄 (Sources Root)
+│       ├── Main.java          # 程式進入點 (負責整合測試與執行流)
+│       ├── config/            # 系統配置
+│       │   └── DatabaseConfig # (預留) 資料庫連線參數配置
+│       ├── controller/        # 控制層 (接收輸入並轉發邏輯)
+│       │   └── BehaviorController.java
+│       ├── dao/               # 數據存取物件 (Data Access Objects)
+│       │   ├── BehaviorDAO.java   # 負責行為日誌的 CRUD 與 SQL 操作
+│       │   └── CharacterDAO.java  # 負責角色數據與天賦倍率提取
+│       ├── entity/            # 實體模型 (Domain Models / Entities)
+│       │   ├── BehaviorLog.java   # 行為紀錄物件
+│       │   └── Character.java     # 角色物件 (包含天賦運算邏輯)
+│       ├── service/           # 核心業務邏輯 (Business Logic)
+│       │   └── BehaviorService.java # 負責天賦加成計算法則
+│       ├── util/              # 工具類別
+│       │   └── DBUtil.java    # JDBC 連線管理 (DriverManager)
+│       └── view/              # 介面顯示層
+│           └── (待開發)        # 未來計畫串接的 Console 菜單或 UI
+├── postgresql-42.7.11.jar     # 外部函式庫 (PostgreSQL JDBC 驅動程式)
+├── README.md                  # 專案說明文件 (包含妳的 Mermaid 圖與截圖)
+├── run.bat                    # Windows 一鍵啟動腳本
+└── .gitignore                 # Git 忽略清單 (排除 .idea, .class 等檔案)
 使用 Mermaid 繪製的資料庫關聯圖，展示了數據如何從使用者流向最終的行為紀錄：
 
 ```mermaid
@@ -53,7 +79,6 @@ java -cp ".;lib/*" com.linalingling.bbb.Main
 | Linaling | aabbcc06 | ADMIN |
 
 
-## 📐 架構說明
 
 
 ### 📐 架構說明 (System Architecture)
