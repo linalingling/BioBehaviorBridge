@@ -150,28 +150,26 @@ classDiagram
 
 ```mermaid
 erDiagram
-    users ||--o{ items : owns
-    items ||--o{ item_logs : has
+    users ||--o{ CHARACTERS  : owns
+    items ||--o{ BEHAVIOR_LOGS : has
 
     users {
         int id PK
         string username UK
         string password_hash
-        string role
+        
     }
-    items {
+    CHARACTERS {
         int id PK
-        string name
-        string category
-        string status
-        string description
-        int priority
-        int owner_id FK
+        string char_name "角色名稱"
+        decimal bonus_decimal "天賦加成(如1.15)"
+        string talent_type "天賦類型(如: RECOVERT)"
+        int user_id FK
     }
-    item_logs {
+    BEHAVIOR_LOGS {
         int id PK
-        int item_id FK
-        string action
-        string note
+        int character_id FK
+        string action "執行動作(如 深蹲)"
+        timestamp created_at
     }
 ```
