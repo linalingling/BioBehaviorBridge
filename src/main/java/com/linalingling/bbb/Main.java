@@ -6,12 +6,14 @@ import com.linalingling.bbb.entity.Character;
 import com.linalingling.bbb.entity.User;
 import com.linalingling.bbb.view.LoginView;
 import com.linalingling.bbb.view.RegisterView;
+import com.linalingling.bbb.controller.BehaviorController;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        com.linalingling.bbb.controller.BehaviorController controller = new com.linalingling.bbb.controller.BehaviorController();
         Scanner scanner = new Scanner(System.in);
         UserDAO userDAO = new UserDAO();
         CharacterDAO charDAO = new CharacterDAO();
@@ -70,6 +72,34 @@ public class Main {
         int charId = userDAO.getCharacterIdByUserId(loggedInUser.getId());
         System.out.println("當前載入角色 ID: " + charId);
 
-        // 下一步：進入行為紀錄選單...
+
+        // --- 登入後的行為錄入選單 ---
+        while (true) {
+            System.out.println("\n--- [角色行動選單] ---");
+            System.out.println("1. 紀錄行為 (如: TRAINING, SEDENTARY)");
+            System.out.println("0. 登出系統");
+            System.out.print("請選擇: ");
+            String subChoice = scanner.nextLine();
+
+            if (subChoice.equals("1")) {
+                // 💡 實戰邏輯：目前假設 goalId = 1 (請確保 DataGrip 裡有這筆 Goal)
+                int goalId = 1;
+
+                System.out.print("輸入行為名稱: ");
+                String action = scanner.nextLine();
+
+                System.out.print("輸入原始數值 (如公斤或分鐘): ");
+                BigDecimal baseValue = new BigDecimal(scanner.nextLine());
+
+                // 執行計算與存檔
+                controller.logActivity(charId, goalId, action, baseValue);
+
+            } else if (subChoice.equals("0")) {
+                System.out.println("正在登出角色...");
+                break;
+            } else {
+                System.out.println("❌ 無效選項。");
+            }
+        }
     }
 }
