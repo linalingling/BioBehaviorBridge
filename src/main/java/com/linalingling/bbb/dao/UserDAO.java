@@ -41,4 +41,16 @@ public class UserDAO {
         } catch (SQLException e) { e.printStackTrace(); }
         return -1; // 代表沒角色
     }
+    public int register(String username, String password) throws SQLException {
+        String sql = "INSERT INTO users (username, password_hash, role) VALUES (?, ?, 'USER') RETURNING id";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) return rs.getInt(1);
+            }
+        }
+        return -1;
+    }
 }
