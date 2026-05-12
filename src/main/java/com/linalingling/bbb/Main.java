@@ -88,8 +88,8 @@ public class Main {
                 System.out.print("輸入行為名稱: ");
                 String action = scanner.nextLine();
 
-                System.out.print("輸入原始數值 (如公斤或分鐘): ");
-                BigDecimal baseValue = new BigDecimal(scanner.nextLine());
+                System.out.print("輸入原始數值 請只輸入純數字，如: 80): ");
+                BigDecimal baseValue = new BigDecimal(action.replaceAll("[a-zA-Z]", ""));
 
                 // 執行計算與存檔
                 controller.logActivity(charId, goalId, action, baseValue);
