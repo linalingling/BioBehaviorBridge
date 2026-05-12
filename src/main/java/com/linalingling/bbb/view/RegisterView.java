@@ -14,7 +14,7 @@ public class RegisterView {
         System.out.print("為妳的角色取個名字 (例如: 黃小鴨): ");
         String charName = scanner.nextLine();
 
-        System.out.println("請選擇初始天賦 (1. RECOVERY 2. FOCUS 3. CONTROL): ");
+        System.out.println("請選擇初始目標 (1. RECOVERY 2. FOCUS 3. CONTROL): ");
         String choice = scanner.nextLine();
         String talent = choice.equals("1") ? "RECOVERY" : (choice.equals("2") ? "FOCUS" : "CONTROL");
 

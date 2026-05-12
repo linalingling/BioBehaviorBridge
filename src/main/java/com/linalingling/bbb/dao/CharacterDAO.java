@@ -11,7 +11,8 @@ public class CharacterDAO {
 
     // 1. 寫入角色
     public void insert(Character character) throws SQLException {
-        String sql = "INSERT INTO characters (user_id, char_name, talent_type, bonus_decimal) VALUES (?, ?, ?, ?)";
+        String sql =  "INSERT INTO characters (user_id, char_name, talent_type, bonus_decimal) " +
+                "VALUES (?, ?, ?::talent_category, ?)";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, character.getUserId());
