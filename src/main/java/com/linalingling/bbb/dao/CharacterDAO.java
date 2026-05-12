@@ -1,45 +1,28 @@
 package com.linalingling.bbb.dao;
-import com.linalingling.bbb.entity.Character;
 
+
+import com.linalingling.bbb.entity.Character;
+import com.linalingling.bbb.util.DBUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CharacterDAO {
-    private Connection connection;
 
-    public CharacterDAO(Connection connection) {
-        this.connection = connection;
-    }
-    public Character findById(int id) throws SQLException {
-        //SQL
-        String sql = "SELECT * FROM characters WHERE id = ?";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        pstmt.setInt(1,id);
-        ResultSet rs = pstmt.executeQuery();
-        if(rs.next()){
-            Character character = new Character();
-            character.setId(rs.getInt("id"));
-            character.setCharName(rs.getString("char_name"));
-            character.setGoalId(rs.getInt("goal_id"));
-            character.setBonusDecimal(rs.getBigDecimal("bonus_decimal"));
-            character.setTalentType(rs.getString("talent_type"));
-            return character;
+
+    public void insert(Character character) throws SQLException {
+        // 這裡我們只填入必要的欄位，讓 ID 自動遞增
+        String sql = "INSERT INTO characters (user_id, char_name, talent_type, bonus_decimal) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, character.getUserId());
+            pstmt.setString(2, character.getCharName());
+            pstmt.setString(3, character.getTalentType());
+            pstmt.setBigDecimal(4, character.getBonusDecimal());
+
+            pstmt.executeUpdate();
         }
-        return null; //暫存
-    }
-    public int insert(Character character) throws SQLException {
-        String sql = "INSERT INTO characters (char_name, bonus_decimal, talent_type) VALUES(?,?,?)";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        pstmt.setString(1,character.getCharName());
-        pstmt.setBigDecimal(2,character.getBonusDecimal());
-        pstmt.setString(3,character.getTalentType());
-
-        return pstmt.executeUpdate();
-
-        // 之後寫insert into
-
     }
 }
-

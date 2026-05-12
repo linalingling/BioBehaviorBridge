@@ -30,4 +30,15 @@ public class UserDAO {
         }
         return null; // 找不到人就回傳 null
     }
+    public int getCharacterIdByUserId(int userId) {
+        String sql = "SELECT id FROM characters WHERE user_id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) return rs.getInt("id");
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return -1; // 代表沒角色
+    }
 }

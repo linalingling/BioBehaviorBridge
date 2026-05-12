@@ -26,17 +26,16 @@ public class BehaviorService {
         BigDecimal bonus = character.getBonusDecimal();
         BigDecimal base = new BigDecimal(baseValue);
         BigDecimal result = bonus.multiply(base);
+        return null;
 
-        int actualGoalId = character.getGoalId();
 
-        System.out.println("準備存檔：GoalID=" + actualGoalId + ", Points=" + result);
-        behaviorDAO.saveLog(actualGoalId, character.getTalentType(), baseValue, result);
-        return result;
+
 
 
 
 
     }
+
 
 
 
