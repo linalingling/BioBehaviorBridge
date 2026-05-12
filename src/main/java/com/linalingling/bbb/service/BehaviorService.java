@@ -9,7 +9,7 @@ public class BehaviorService {
     /**
      * 核心判定矩陣: 根據目標類型與行為類別計算最終點數
      */
-    public BigDecimal calaulatePoint (Character character, Goal goal, BehaviorLog log) {
+    public BigDecimal calculatePoints(Character character, Goal goal, BehaviorLog log) {
         BigDecimal baseValue = log.getBaseValue();
         BigDecimal bonus = character.getBonusDecimal();
         String goalType = goal.getTitle();
