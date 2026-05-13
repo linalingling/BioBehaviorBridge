@@ -50,3 +50,5 @@ CREATE TABLE behavior_logs (
                                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+INSERT INTO goals (char_id, title, is_active)
+VALUES (1, 'WEIGHT_LOSS', TRUE);
