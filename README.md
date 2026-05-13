@@ -211,4 +211,5 @@ erDiagram
 
 ### 1. 整合測試結果 (Console)
 成功計算天賦加成 (1.15) 並精確對齊 Goal_ID (16)：
-![測試成功截圖](doc_images/test_success.png.png)
+![成功驗證截圖](./doc_images/demo_log.png)
+![成功驗證截圖](./doc_images/demo_input.png)
