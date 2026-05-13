@@ -30,9 +30,15 @@ public class BehaviorController {
                 log.setAction(action);
                 log.setBaseValue(baseValue);
 
-                // ✅ 修正：同樣使用實例呼叫計算邏輯
+                // ✅ 使用實例呼叫計算邏輯
                 BigDecimal finalPoints = behaviorService.calculatePoints(character, goal, log);
                 log.setCalculatedPoints(finalPoints);
+                System.out.println("----------------------------------------");
+                System.out.println("📊 點數加成結算中...");
+                System.out.println("   行為類型: " + action);
+                System.out.println("   角色天賦: " + character.getTalentType() + " (加成: " + character.getBonusDecimal() + ")");
+                System.out.println("   計算公式: " + baseValue + " * " + character.getBonusDecimal() + " = " + finalPoints);
+                System.out.println("----------------------------------------");
 
                 // ✅ 修正：使用實例進行存檔
                 behaviorLogDAO.insert(log);

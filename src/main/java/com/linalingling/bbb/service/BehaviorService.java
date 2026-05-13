@@ -12,12 +12,14 @@ public class BehaviorService {
     public BigDecimal calculatePoints(Character character, Goal goal, BehaviorLog log) {
         BigDecimal baseValue = log.getBaseValue();
         BigDecimal bonus = character.getBonusDecimal();
-        String goalType = goal.getTitle();
-        String action = log.getAction();
+        String goalType = goal.getTitle().toUpperCase();;
+        String action = log.getAction().toUpperCase();;
+
+
 
         //邏輯判定
         if (goalType.equals("WEIGHT_LOSS")) {
-            if (action.equals("TRAING")) {
+            if (action.equals("TRAINING")) {
                 //正向行為: 給予天賦加成
                 return baseValue.multiply(bonus);
             } else if (action.equals("SEDENTARY")) {

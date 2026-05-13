@@ -11,7 +11,7 @@ public class BehaviorLogDAO {
      * 實踐將計算後的點數 (calculated_points) 永久存檔
      */
     public void insert(BehaviorLog log) throws SQLException {
-        String sql = "INSERT INTO behavior_logs (goal_id, action, note, base_value, calculated_points) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO behavior_logs (goal_id, action, note, base_value, calculate_points) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

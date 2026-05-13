@@ -89,7 +89,18 @@ public class Main {
                 String action = scanner.nextLine();
 
                 System.out.print("輸入原始數值 請只輸入純數字，如: 80): ");
-                BigDecimal baseValue = new BigDecimal(action.replaceAll("[a-zA-Z]", ""));
+
+                String userInput = "";
+                do {
+                    userInput = scanner.nextLine().trim();
+                } while (userInput.isEmpty());
+                String cleanInput = userInput.replaceAll("[^0-9.]", "");
+                if (cleanInput.isEmpty()) {
+                    cleanInput = "0";
+                }
+
+
+                BigDecimal baseValue = new BigDecimal(cleanInput);
 
                 // 執行計算與存檔
                 controller.logActivity(charId, goalId, action, baseValue);
